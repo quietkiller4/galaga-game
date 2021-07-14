@@ -9,9 +9,7 @@ win_height = 800
 pygame.init()
 win = pygame.display.set_mode((win_width, win_height))
 done = False
-clock = pygame.time.Clock()
 font_obj = pygame.font.SysFont("Courier New", 16)
-paused = False
 
 
 while not done:
