@@ -48,7 +48,6 @@ class Square:
             self.rect.y = self.rect.y + self.speed
 
     def collided(self, other_rect):
-        # Return True if self collided with other_rect
         return self.rect.colliderect(other_rect)
 
     def draw(self, surface):
@@ -68,9 +67,6 @@ class Bullet(Square):
 
     # Override
     def move(self):
-        # self.x and self.y are floats (decimals) so I get more accuracy
-        # if I change self.x and y and then convert to an integer for
-        # the rectangle.
         self.x = self.x + self.dx
         self.y = self.y + self.dy
         self.rect.x = int(self.x)
@@ -92,7 +88,7 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:  # spacebar
+            if event.key == pygame.K_SPACE:
                 # Fire a bullet
                 spawnx = sq.rect.x + sq.rect.width / 2 - 10
                 b = Square(red, spawnx, sq.rect.y, 20, 20, 20)
@@ -147,6 +143,6 @@ while not done:
         e.draw(surface)
     sq.draw(surface)
     pygame.display.flip()
-    clock.tick(30)  # 30 FPS
+    clock.tick(60)
 pygame.quit()
 exit()
