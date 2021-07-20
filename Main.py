@@ -13,26 +13,26 @@ done = False
 font_obj = pygame.font.SysFont("Courier New", 16)
 clock = pygame.time.Clock()
 paused = False
-
-bullet_list = []
+player_bullet_list = []
+enemy_bullet_list = []
 enemy_list = []
 num_enemies_in_wave = 5
 wave_number = 0
 
 p = Player.player()
-
+e = Enemy.enemy
 while not done:
     # Updates
     delta_time = clock.tick() / 1000
     event = pygame.event.poll()
 
-    p.handle_input(win_width, event, delta_time, bullet_list, paused)
-    Enemy.enemy.update_enemies(enemy_list, bullet_list, delta_time, win_height)
-
+    p.handle_input(win_width, event, delta_time, paused)
+    e.update_enemies(None, enemy_list, enemy_bullet_list, delta_time, win_height)
+    p.update_bullets(delta_time, win_height)
     if len(enemy_list) == 0:
         num_enemies_in_wave += 5
         wave_number += 1
-        enemy_list = Enemy.enemy.spawn_enemies(num_enemies_in_wave, win_width)
+        enemy_list = Enemy.enemy.spawn_enemies(None, num_enemies_in_wave, win_width)
         # putting drawing code here is kind of gross, but it is simple...
         temps = font_obj.render("Wave #" + str(wave_number), False, (255,0,0), (0,0,0))
         win.blit(temps, (win_width / 2 - temps.get_width() / 2, win_height / 2 - temps.get_height() / 2))
@@ -47,7 +47,7 @@ while not done:
 
     # Draw
     win.fill((0,0,0))
-    Enemy.enemy.draw_enemies(win, enemy_list)
+    e.draw_enemies(None, win, enemy_list)
     win.blit(font_obj.render("Enemies Left: " + str(len(enemy_list)), False, (255, 255, 0)), (400, 0))
     p.draw_player(win)
 

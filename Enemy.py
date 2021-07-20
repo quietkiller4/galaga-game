@@ -3,6 +3,8 @@ import pygame.draw
 import math
 
 class enemy:
+    def __init__(self):
+        self.enemy_bullet_list = []
 
     def distance(x1, y1, x2, y2):
         """
@@ -21,7 +23,11 @@ class enemy:
         # this return statement sends back the value held by c to the caller. A side-effect of a return statements
         return c
 
-    def update_enemies(enemy_list, bullet_list, delta_time, win_height):
+    def update_bullets(self, delta_time, win_height):
+        for bullet in self.enemy_bullet_list:
+            bullet[1] -= bullet[2] * delta_time
+
+    def update_enemies(self, enemy_list, bullet_list, delta_time, win_height):
         # health_change, score_change
         health_change = 0
         for enemy_1 in enemy_list:
@@ -38,7 +44,7 @@ class enemy:
                 health_change += 5
                 enemy_list.remove(enemy_1)
 
-    def spawn_enemies(num_enemies_in_wave, win_width):
+    def spawn_enemies(self, num_enemies_in_wave, win_width):
         #enemy_list
         enemies = []
         y1 =- 15
@@ -52,7 +58,11 @@ class enemy:
             y1 -= 75
         return enemies
 
-    def draw_enemies(win, enemy_list):
+    def draw_bullets(self, win):
+        for bullet in self.enemy_bullet_list:
+            pygame.draw.circle(win, (0, 0, 255), (bullet[0], bullet[1]), 5)
+
+    def draw_enemies(self, win, enemy_list):
         for enemy_1 in enemy_list:
             x = math.sin(enemy_1[1] * .5) * 30 + enemy_1[0]
             pygame.draw.circle(win, (255, 255, 255), (x, enemy_1[1]), 15)
